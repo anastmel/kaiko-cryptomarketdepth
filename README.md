@@ -4,7 +4,7 @@ A Python module that allows users to leverage Kaiko's market depth data for cent
 The module `kaiko_depth.py` provides functions to easily get data, chart it, and create heatmaps that show how liquidity is distributed across different exchanges' orderbooks and price levels, both on bid and ask sides. It also helps users to identify which exchange provides the most liquidity and the least slippage for a given market (example: ETH-USD) or a cryptoasset (example: ETH).
 
 ## Installation 
-Python module with all the functions is the file named `kaiko_depth.py`. To make sure you can use its functions, you need to put it in your working directory. You can then import the module in any script and use the functions. 
+The python module with all the functions is the file named `kaiko_depth.py`. To make sure you can use its functions, you need to put it in your working directory. You can then import the module in any script and use the functions. 
 ```python
 import kaiko_depth as kk
 ```
