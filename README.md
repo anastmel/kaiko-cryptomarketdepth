@@ -25,14 +25,14 @@ df = kk.market_depth(apikey='your_api_key_here',
                      instrument_class='spot')
 ```
 
-If you want to view the market depth for a single base asset across multiple pairs, you can use the asset_depth() function of this module. This function aggregates the market depth for the specified quote assets. The default quote assets are USD, USDT, and USDC, but you can include additional quote assets as well. In this example, we are using USD, USDT, and DAI as quote assets and looking at the market depth for ETH across Coinbase and Kraken in these aggregated markets.
+If you want to view the market depth for a single base asset across multiple pairs, you can use the `asset_depth()` function of this module. This function aggregates the market depth for the specified quote assets. The default quote assets are USD, USDT, and USDC, but you can include additional quote assets as well. In this example, we are using USD, USDT, and DAI as quote assets and looking at the market depth for ETH across Coinbase and Kraken in these aggregated markets.
 
 ```python
-df = kk.asset_depth(apikey='2u8d86u372f3r2a1rme8l0463saycq4h', 
+df1 = kk.asset_depth(apikey='2u8d86u372f3r2a1rme8l0463saycq4h', 
                      start_time='2023-01-21T00:00:00Z', 
                      end_time='2023-01-21T00:30:59Z',
                      base_asset='eth',
-                     exchanges=['cbse','krkn', 'binc'],
+                     exchanges=['cbse','krkn'],
                      instrument_class='spot', 
                      # default : quote_assets=['usd', 'usdt','usdc']
                      quote_assets=['usd', 'usdt', 'dai'])
@@ -45,7 +45,7 @@ The module provides a simple way to chart the market depth at a selected side (b
 The following example illustrates how to use the `market_depth_chart()` function to examine the market depth on the bid side across the selected exchanges, at a depth of 0.2% with respect to the best bid and best ask. The volume in always expresse in base currency, here ETH. 
 
 ```python
-kk.market_depth_chart(market, 'bid_volume0_2')
+kk.market_depth_chart(df, 'bid_volume0_2')
 ```
 
 The chart appears as follows:
@@ -55,7 +55,7 @@ The chart appears as follows:
 If you want to chart the market depth for a single base asset across multiple pairs, you can instead use the function `asset_depth_chart()`. 
 
 ```python
-kk.asset_depth_chart(market, 'bid_volume0_2')
+kk.asset_depth_chart(df1, 'bid_volume0_2')
 ```
 
 The chart appears as follows:
@@ -63,5 +63,29 @@ The chart appears as follows:
 ![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart3.png)
 
 ### Cross Exchange Market Depth Heatmap
-This module 
+
+This module offers functions for creating heatmaps that provide insights into the distribution of volume across different price levels in the order book of each exchange. The function `market_heatmap()` can be used to determine for a specific pair, which exchange has the most available volume for a buy or sell order which hits each price level, by inputting the dataframe obtained from the `market_depth()` function.
+
+```python
+kk.market_heatmap(df, "heatmap_market.jpeg")
+```
+
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart2.png)
+
+The `asset_heatmap()` function of this module allows you to generate a heatmap for the aggregated market depth of a selected asset across multiple markets. For this, you'll need to input the dataframe you got using the `asset_depth()` function of the module. 
+
+```python
+kk.market_heatmap(df1, "heatmap_asset.jpeg")
+```
+
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart4.png)
+
+For a more detailed example, see the included script `example.py`. For additional information regarding the Kaiko endpoint utilized in the repository and module, please refer to the Kaiko REST API documentation provided here : https://docs.kaiko.com/#order-book-snapshots-full. 
+
+### Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+
+
 
