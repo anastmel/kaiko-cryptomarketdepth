@@ -39,6 +39,7 @@ kk.market_depth_chart(market, 'bid_volume0_2')
 ```
 The outputed chart looks like this : 
 
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart1.png)
 
 
 
