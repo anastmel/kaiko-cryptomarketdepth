@@ -170,7 +170,7 @@ def asset_heatmap(df, file_name):
     ax.set_xticklabels(df.columns)
     ax.set_yticklabels(df.index)
     # Add a title to the heatmap
-    plt.title("market depth by exchange")
+    plt.title("Selected asset's market depth by exchange")
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
     # Save the plot
