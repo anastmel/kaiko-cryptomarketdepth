@@ -78,14 +78,10 @@ The `asset_heatmap()` function of this module allows you to generate a heatmap f
 kk.market_heatmap(df1, "heatmap_asset.jpeg")
 ```
 
-![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart4.png)
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart4_2.png)
 
 For a more detailed example, see the included script `example.py`. For additional information regarding the Kaiko endpoint utilized in the repository and module, please refer to the Kaiko REST API documentation provided here : https://docs.kaiko.com/#order-book-snapshots-full. 
 
 ### Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-
-
-
