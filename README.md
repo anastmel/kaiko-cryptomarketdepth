@@ -10,17 +10,13 @@ import kaiko_depth as kk
 ```
 ## Example of Usage
 
-### Looking at a cryptocurrency pair 
-
-#### Get the market depth 
+### Get the market depth 
 
 To access the comparative market depth of a cryptocurrency pair, such as ETH-USD, on Coinbase and Kraken, you can use the `market_depth()` function provided by the CryptoExchangeDepth module. To use this function, you will need to provide your Kaiko API key, which you can obtain by filling out the form on Kaiko's website. Once you have your API key, you can specify the start and end time of your data request in ISO format, the instrument (i.e. the pair you are interested in), the exchanges you want to retrieve data from, and the instrument class (e.g. spot, future, perpetual-future, or option).
 
 Please note that it is important to ensure that the instruments (pair + exchange) you are requesting are actually listed. You can find a list of all pairs listed on all cryptocurrency exchanges on the Kaiko Instruments webpage.
 
 ```python
-import kaiko_depth as kk
-
 df = kk.market_depth(apikey='your_api_key_here', 
                      start_time='2023-01-21T00:00:00Z', 
                      end_time='2023-01-21T01:00:59Z',
@@ -28,7 +24,21 @@ df = kk.market_depth(apikey='your_api_key_here',
                      exchanges=['cbse', 'krkn', 'bnus'],
                      instrument_class='spot')
 ```
-#### Chart market depth across exchanges
+
+If you want to view the market depth for a single base asset across multiple pairs, you can use the asset_depth() function of this module. This function aggregates the market depth for the specified quote assets. The default quote assets are USD, USDT, and USDC, but you can include additional quote assets as well. In this example, we are using USD, USDT, and DAI as quote assets and looking at the market depth for ETH across Coinbase and Kraken in these aggregated markets.
+
+```python
+df = kk.asset_depth(apikey='2u8d86u372f3r2a1rme8l0463saycq4h', 
+                     start_time='2023-01-21T00:00:00Z', 
+                     end_time='2023-01-21T00:30:59Z',
+                     base_asset='eth',
+                     exchanges=['cbse','krkn', 'binc'],
+                     instrument_class='spot', 
+                     # default : quote_assets=['usd', 'usdt','usdc']
+                     quote_assets=['usd', 'usdt', 'dai'])
+```
+
+### Chart market depth across exchanges
 
 The module provides a simple way to chart the market depth at a selected side (bid or ask) and a specific depth level in percentage, using the `market_depth_chart()` function. The depth of an orderbook is represented by the cumulative volume of the base asset at levels of 0.1%, 0.2%, 0.3%, 0.4%, 0.5%, 0.6%, 0.7%, 0.8%, 0.9%, 1%, 1.5%, 2%, 4%, 6%, 8% and 10% from the best ask and best bid respectively.
 
@@ -37,9 +47,21 @@ The following example illustrates how to use the `market_depth_chart()` function
 ```python
 kk.market_depth_chart(market, 'bid_volume0_2')
 ```
-The outputed chart looks like this : 
+
+The chart appears as follows:
 
 ![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart1.png)
 
+If you want to chart the market depth for a single base asset across multiple pairs, you can instead use the function `asset_depth_chart()`. 
 
+```python
+kk.asset_depth_chart(market, 'bid_volume0_2')
+```
+
+The chart appears as follows:
+
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/images/chart3.png)
+
+### Cross Exchange Market Depth Heatmap
+This module 
 
