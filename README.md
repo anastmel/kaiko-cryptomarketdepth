@@ -28,7 +28,7 @@ df = kk.market_depth(apikey='your_api_key_here',
 If you want to view the market depth for a single base asset across multiple pairs, you can use the `asset_depth()` function of this module. This function aggregates the market depth for the specified quote assets. The default quote assets are USD, USDT, and USDC, but you can include additional quote assets as well. In this example, we are using USD, USDT, and DAI as quote assets and looking at the market depth for ETH across Coinbase and Kraken in these aggregated markets.
 
 ```python
-df1 = kk.asset_depth(apikey='2u8d86u372f3r2a1rme8l0463saycq4h', 
+df1 = kk.asset_depth(apikey='your_api_key_here', 
                      start_time='2023-01-21T00:00:00Z', 
                      end_time='2023-01-21T00:30:59Z',
                      base_asset='eth',
