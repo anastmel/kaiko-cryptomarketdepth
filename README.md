@@ -10,6 +10,10 @@ import kaiko_depth as kk
 ```
 ## Example of Usage
 
+### Get symbols for supported exchanges
+
+To get a list of the exchanges Kaiko supports and their symbols, see [this page](https://docs.kaiko.com/#exchanges).
+
 ### Get the market depth 
 
 To access the comparative market depth of a cryptocurrency pair, such as ETH-USD, on Coinbase and Kraken, you can use the `market_depth()` function provided by the CryptoExchangeDepth module. To use this function, you will need to provide your Kaiko API key, which you can obtain by filling out the form on Kaiko's website. Once you have your API key, you can specify the start and end time of your data request in ISO format, the instrument (i.e. the pair you are interested in), the exchanges you want to retrieve data from, and the instrument class (e.g. spot, future, perpetual-future, or option).
@@ -25,7 +29,7 @@ df = kk.market_depth(apikey='your_api_key_here',
                      instrument_class='spot')
 ```
 
-If you want to view the market depth for a single base asset across multiple pairs, you can use the `asset_depth()` function of this module. This function aggregates the market depth for the specified quote assets. The default quote assets are USD, USDT, and USDC, but you can include additional quote assets as well. In this example, we are using USD, USDT, and DAI as quote assets and looking at the market depth for ETH across Coinbase and Kraken in these aggregated markets.
+If you want to view the market depth for a single base asset across multiple pairs, you can use the `asset_depth()` function of this module. This function aggregates the market depth for the specified quote assets. The default quote assets are USD, USDT, DAI, BUSD, and USDC, but you can include additional quote assets as well. There are many different quote assets to consider for a single base asset's liquidity, including blue-chip assets like BTC and ETH, that a protocol could employ; to stay on the conservative side, our default code limits the quote assets to the largest stablecoins. In this example, we are using just USD, USDT, and DAI as quote assets and looking at the market depth for ETH across Coinbase and Kraken in these aggregated markets.
 
 ```python
 df1 = kk.asset_depth(apikey='your_api_key_here', 
@@ -34,7 +38,7 @@ df1 = kk.asset_depth(apikey='your_api_key_here',
                      base_asset='eth',
                      exchanges=['cbse','krkn'],
                      instrument_class='spot', 
-                     # default : quote_assets=['usd', 'usdt','usdc']
+                     # default : quote_assets=['usd','usdt','dai','busd','usdc']
                      quote_assets=['usd', 'usdt', 'dai'])
 ```
 
@@ -85,3 +89,4 @@ For a more detailed example, see the included script `example.py`. For additiona
 ### Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
