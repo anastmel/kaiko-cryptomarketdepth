@@ -8,7 +8,7 @@ The python module with all the functions is the file named `kaiko_depth.py`. To 
 ```python
 import kaiko_depth as kk
 ```
-## Example of Usage : How liquid is a ETH compared to Bitcoin ?
+## Example of Usage : How liquid is ETH compared to BTC
 
 To access the comparative market depth of a cryptocurrency, such as ETH with BTC or any other cryptocurrency, taken from the TOP 10 most liquid exchanges, you can use the `asseets_depth()` function of the module. Thanks to the create_json() function you can export the fully aggregated result by cryptocurrency, in a json format as shown below. You can choose to get this liquidity expressed in your assets unit or in USD thanks to a simple parameter. 
 
