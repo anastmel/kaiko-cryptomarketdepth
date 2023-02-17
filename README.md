@@ -11,13 +11,17 @@ import kaiko_depth as kk
 
 ## Get symbols for supported exchanges
 
-To get a list of the exchanges Kaiko supports and their symbols, see [this page](https://docs.kaiko.com/#exchanges).
+To get a list of the exchanges Kaiko supports and their symbols, see [this page](https://instruments.kaiko.com/#/exchanges).
+
+## Get symbols of supported assets 
+
+To get a list of the assets Kaiko supports and their symbols, see [this page](https://instruments.kaiko.com/#/assets).
 
 ## Get the market depth
 
-To access the comparative market depth of a cryptocurrency pair, such as ETH-USD, on Coinbase and Kraken, you can use the `market_depth()` function provided by the CryptoExchangeDepth module. To use this function, you will need to provide your Kaiko API key, which you can obtain by filling out the form on Kaiko's website. Once you have your API key, you can specify the start and end time of your data request in ISO format, the instrument (i.e. the pair you are interested in), the exchanges you want to retrieve data from, and the instrument class (e.g. spot, future, perpetual-future, or option).
+To access the comparative market depth of a cryptocurrency pair, such as ETH-USD, on Coinbase and Kraken, you can use the `market_depth()` function provided by the `kaiko_depth.py` module. To use this function, you will need to provide your Kaiko API key, which you can obtain by filling out the form on [Kaiko's website](https://www.kaiko.com/pages/contact-kaiko). Once you have your API key, you can specify the start and end time of your data request in ISO format, the instrument (i.e. the pair you are interested in), the exchanges you want to retrieve data from, and the instrument class (e.g. spot, future, perpetual-future, or option).
 
-Please note that it is important to ensure that the instruments (pair + exchange) you are requesting are actually listed. You can find a list of all pairs listed on all cryptocurrency exchanges on the Kaiko Instruments webpage.
+Please note that it is important to ensure that the instruments (pair + exchange) you are requesting are actually listed. You can find a list of all pairs listed on all cryptocurrency exchanges on the [Kaiko Instruments webpage](https://instruments.kaiko.com/#/instruments).
 
 ```python
 df = kk.market_depth(apikey='your_api_key_here', 
@@ -28,11 +32,11 @@ df = kk.market_depth(apikey='your_api_key_here',
                      instrument_class='spot')
 ```
 
-## Example of Usage : How liquid is ETH compared to BTC
+## An Example of Usage: How liquid is ETH compared to BTC?
 
 To access the comparative market depth of a cryptocurrency, such as ETH with BTC or any other cryptocurrency, taken from certain exchanges, you can use the `assets_depth()` function of the module. The default exchanges used are the top 10 most liquid exchanges according to [Kaiko's proprietary liquidity scoring methodology](https://www.kaiko.com/pages/exchange-ranking), and the default quote assets are the most liquid stable assets (USD, USDT, DAI, BUSD, and USDC), but you can include additional quote assets as well. There are many different quote assets to consider for a single base asset's liquidity, including blue-chip assets like BTC and ETH, that a protocol could employ; to stay on the conservative side, our default code limits the quote assets to the largest stablecoins.
 
-Thanks to the create_json() function you can export the fully aggregated result by cryptocurrency, in a json format as shown below. You can choose to get this liquidity expressed in your assets unit or in USD thanks to a simple parameter. 
+You can export the fully aggregated result by cryptocurrency in JSON format with the `create_json()` function. This allows you to choose whether to express liquidity in your asset units or in USD using a simple parameter.
 
 ```python
 df = kk.assets_depth(apikey='your_api_key_here', 
@@ -129,7 +133,7 @@ For a more detailed example, see the included notebooks in the examples folder. 
 - The second one called `asset-exchange-kaiko-depth.ipynb` explains how to get, chart, and analyze, the markets depth for one single asset, aggregated across a selection of exchanges. The view given is a comparative view by exchange. 
 - The third one, called `asset-kaiko-depth.ipynb` explains how to get, chart, and analyze, the market depth for a list of selected assets. This one is the one used for the example above. 
 
-For additional information regarding the Kaiko endpoint utilized in the repository and module, please refer to the Kaiko REST API documentation provided here : https://docs.kaiko.com/#order-book-aggregations-full. 
+For additional information regarding the Kaiko endpoint utilized in the repository and module, please refer to the Kaiko REST API documentation provided [here](https://docs.kaiko.com/#order-book-aggregations-full). 
 
 ### Contributing
 
