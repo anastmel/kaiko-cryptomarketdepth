@@ -3,10 +3,25 @@ import requests
 import matplotlib.pyplot as plt
 
 # Instrument Level
-# Carefull, the history available here is limited to one month (rolling)
-# TODO: describe your parameters here, what types they take and example inputs
-# e.g. apikey is a string that holds your API token needed to access Kaiko's databases. You can get your API token by...
-# e.g. interval can be a string or a number; if a string, the options are... ; if a number, interval is the frequency at which snapshots are taken, e.g. interval = 30 --> snapshots every 30 mins aggregated
+
+'''
+The market_depth() function returns a Pandas DataFrame that contains the market depth data for the specified parameters.
+
+PARAMETERS
+
+The apikey is a string that holds your API token needed to access Kaiko's databases. 
+You can get your API token by filling the form on this page https://www.kaiko.com/pages/contact-kaiko
+    - apikey (string): A required parameter that specifies the API key to access the market data.
+    
+    - instrument (string): A required parameter that specifies the trading pair (e.g. "BTC-USD") to retrieve market depth data for.
+    - exchanges (list of strings): A required parameter that specifies the exchanges to retrieve market depth data from. Multiple exchanges can be provided as a list (e.g. ['exchange1', 'exchange2']).
+    - interval (string): A required parameter that specifies the time interval of the data query (e.g. "1m" for 1 minute intervals).
+    - instrument_class (string): An optional parameter that specifies the class of the instrument. The default value is "spot".
+    
+The market depth data is available for a month history (rolling)
+    - start_time (string): A required parameter that specifies the start time of the data query in UTC. The format should be in ISO 8601 (e.g. "2022-01-01T00:00:00Z").
+    - end_time (string): A required parameter that specifies the end time of the data query in UTC. The format should be in ISO 8601 (e.g. "2022-01-02T00:00:00Z").
+'''
 def market_depth(apikey, start_time, end_time, instrument, exchanges, interval, instrument_class='spot'):
     headers = {'Accept': 'application/json',
                'X-Api-Key': apikey}
@@ -32,6 +47,11 @@ def market_depth(apikey, start_time, end_time, instrument, exchanges, interval, 
     return final_df
 
 
+'''
+The market_depth_chart() function creates a line chart comparing the market depth 
+at a selected level (using the parameter "values"), across the exchanges initially requested. 
+It uses the data returned using the market_depth() function.
+'''
 def market_depth_chart(df, values, file_name=None, show=False):
     # Combine the exchange and pair columns to create a new label column
     df['label'] = df['exchange'] + '-' + df['pair']
@@ -56,6 +76,9 @@ def market_depth_chart(df, values, file_name=None, show=False):
         # Show the chart
         plt.show()
 
+'''
+The market_heatmap() function creates a heatmap based on the data returned by the market_depth() function
+'''
 def market_heatmap(df, file_name=None, show=False):
     # Combine the exchange and pair columns to create a new label column
     df['label'] = df['exchange'] + '-' + df['pair']
@@ -102,7 +125,26 @@ def market_heatmap(df, file_name=None, show=False):
 
 
 # Asset Level / exchange granularity
-# TODO: same docstring format as mentioned above in market_depth
+
+'''
+The asset_depth() function returns a Pandas DataFrame that contains the market depth data for the specified base asset, across the selected exchanges.
+
+PARAMETERS
+
+The apikey is a string that holds your API token needed to access Kaiko's databases. 
+You can get your API token by filling the form on this page https://www.kaiko.com/pages/contact-kaiko
+    - apikey (string): A required parameter that specifies the API key to access the market data.
+    
+    - interval (string): A required parameter that specifies the time interval of the data query (e.g. "1m" for 1 minute intervals).
+    - instrument_class (string): An optional parameter that specifies the class of the instrument. The default value is "spot".
+    - base_asset (required): The base asset to retrieve data for (e.g. "btc"). The assets tickers are provided by kaiko: https://instruments.kaiko.com/#/assets
+    - quote_assets (optional, default: ["usd", "usdt", "usdc", "dai", "busd"]): A list of quote assets to retrieve data for (e.g. ["usd", "usdt"])
+    - exchanges (required): A list of exchanges to retrieve data for (e.g. ["binc", "bfnx", "krkn"]). Kaiko provides the exchanges tickers: https://instruments.kaiko.com/#/exchanges
+    
+The market depth data is available for a month history (rolling)
+    - start_time (string): A required parameter that specifies the start time of the data query in UTC. The format should be in ISO 8601 (e.g. "2022-01-01T00:00:00Z").
+    - end_time (string): A required parameter that specifies the end time of the data query in UTC. The format should be in ISO 8601 (e.g. "2022-01-02T00:00:00Z").
+'''
 def asset_depth(apikey, start_time, end_time, base_asset, exchanges, interval, quote_assets=['usd', 'usdt', 'usdc', 'dai', 'busd'], instrument_class='spot'):
     headers = {'Accept': 'application/json',
                'X-Api-Key': apikey}
@@ -142,6 +184,11 @@ def asset_depth(apikey, start_time, end_time, base_asset, exchanges, interval, q
     final_df = convert_to_numeric(final_df, columns_to_convert)
     return final_df
 
+'''
+The asset_depth_chart() function creates a line chart comparing the market depth 
+at a selected level (using the parameter "values"), across the exchanges initially requested for one selected asset. 
+It uses the data returned using the asset_depth() function.
+'''
 def asset_depth_chart(df, values, file_name=None, show=False):
     # Pivot the dataframe to aggregate the 'values'
     pivot_df = df.pivot_table(values=values, index='poll_date', columns='exchange')
@@ -166,6 +213,10 @@ def asset_depth_chart(df, values, file_name=None, show=False):
         # Show the chart
         plt.show()
 
+        
+'''
+The asset_heatmap() function creates a heatmap based on the data returned by the asset_depth() function
+'''
 def asset_heatmap(df, file_name=None, show=False):
     
     cols = ['bid_volume0_1','bid_volume0_2', 'bid_volume0_3', 'bid_volume0_4', 'bid_volume0_5',
@@ -213,7 +264,26 @@ def asset_heatmap(df, file_name=None, show=False):
 
 
 ## BY ASSET only 
-# TODO: same docstring format as mentioned above in market_depth
+
+'''
+The assets_depth() function returns a Pandas DataFrame that contains the market depth data for a list of assets. 
+
+PARAMETERS
+
+The apikey is a string that holds your API token needed to access Kaiko's databases. 
+You can get your API token by filling the form on this page https://www.kaiko.com/pages/contact-kaiko
+    - apikey (string): A required parameter that specifies the API key to access the market data.
+    
+    - interval (string): A required parameter that specifies the time interval of the data query (e.g. "1m" for 1 minute intervals).
+    - instrument_class (string): An optional parameter that specifies the class of the instrument. The default value is "spot".
+    - assets (list of strings): a list of asset symbols (e.g. ['btc', 'eth', 'xrp']) for which to retrieve data. The assets tickers are provided by kaiko: https://instruments.kaiko.com/#/assets
+    - exchanges (list of strings, optional): a list of exchange symbols (e.g. ['krkn', 'cbse', 'stmp']) from which to retrieve data. Default value is ['krkn','cbse', 'stmp', 'bnus', 'binc', 'gmni', 'btrx', 'itbi', 'huob', 'btba']. Kaiko provides the exchanges tickers: https://instruments.kaiko.com/#/exchanges
+    
+The market depth data is available for a month history (rolling)
+    - start_time (string): A required parameter that specifies the start time of the data query in UTC. The format should be in ISO 8601 (e.g. "2022-01-01T00:00:00Z").
+    - end_time (string): A required parameter that specifies the end time of the data query in UTC. The format should be in ISO 8601 (e.g. "2022-01-02T00:00:00Z").
+'''
+
 def assets_depth(apikey, start_time, end_time, assets, instrument_class, interval, exchanges=['krkn','cbse', 'stmp', 'bnus', 'binc', 'gmni', 'btrx', 'itbi', 'huob', 'btba'], quote_assets=['usd', 'usdt', 'usdc', 'dai', 'busd']):
     headers = {'Accept': 'application/json',
                'X-Api-Key': apikey}
