@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 
 # Instrument Level
 # Carefull, the history available here is limited to one month (rolling)
+# TODO: describe your parameters here, what types they take and example inputs
+# e.g. apikey is a string that holds your API token needed to access Kaiko's databases. You can get your API token by...
+# e.g. interval can be a string or a number; if a string, the options are... ; if a number, interval is the frequency at which snapshots are taken, e.g. interval = 30 --> snapshots every 30 mins aggregated
 def market_depth(apikey, start_time, end_time, instrument, exchanges, interval, instrument_class='spot'):
     headers = {'Accept': 'application/json',
                'X-Api-Key': apikey}
@@ -29,7 +32,7 @@ def market_depth(apikey, start_time, end_time, instrument, exchanges, interval, 
     return final_df
 
 
-def market_depth_chart(df, values):
+def market_depth_chart(df, values, file_name=None, show=False):
     # Combine the exchange and pair columns to create a new label column
     df['label'] = df['exchange'] + '-' + df['pair']
     # Pivot the dataframe to aggregate the 'values'
@@ -47,10 +50,13 @@ def market_depth_chart(df, values):
     plt.ylabel(values)
     plt.xticks(rotation=60)
     plt.legend()
-    # Show the chart
-    plt.show()
+    if file_name:
+        plt.savefig(file_name, format="jpeg")
+    if show:
+        # Show the chart
+        plt.show()
 
-def market_heatmap(df, file_name):
+def market_heatmap(df, file_name=None, show=False):
     # Combine the exchange and pair columns to create a new label column
     df['label'] = df['exchange'] + '-' + df['pair']
     cols = ['bid_volume0_1','bid_volume0_2', 'bid_volume0_3', 'bid_volume0_4', 'bid_volume0_5',
@@ -82,10 +88,12 @@ def market_heatmap(df, file_name):
     plt.title("market depth by pair & exchange")
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
-    # Save the plot
-    plt.savefig(file_name, format='jpeg')
-    # Show the plot
-    plt.show()
+    if file_name:
+        # Save the plot
+        plt.savefig(file_name, format='jpeg')
+    if show:
+        # Show the plot
+        plt.show()
 
 
 
@@ -94,7 +102,7 @@ def market_heatmap(df, file_name):
 
 
 # Asset Level / exchange granularity
-
+# TODO: same docstring format as mentioned above in market_depth
 def asset_depth(apikey, start_time, end_time, base_asset, exchanges, interval, quote_assets=['usd', 'usdt', 'usdc', 'dai', 'busd'], instrument_class='spot'):
     headers = {'Accept': 'application/json',
                'X-Api-Key': apikey}
@@ -134,8 +142,7 @@ def asset_depth(apikey, start_time, end_time, base_asset, exchanges, interval, q
     final_df = convert_to_numeric(final_df, columns_to_convert)
     return final_df
 
-
-def asset_depth_chart(df, values):
+def asset_depth_chart(df, values, file_name=None, show=False):
     # Pivot the dataframe to aggregate the 'values'
     pivot_df = df.pivot_table(values=values, index='poll_date', columns='exchange')
     # Interpolate missing values
@@ -153,10 +160,13 @@ def asset_depth_chart(df, values):
     plt.ylabel(values)
     plt.xticks(rotation=60)
     plt.legend()
-    # Show the chart
-    plt.show()
+    if file_name:
+        plt.savefig(file_name, format='jpeg')
+    if show:
+        # Show the chart
+        plt.show()
 
-def asset_heatmap(df, file_name):
+def asset_heatmap(df, file_name=None, show=False):
     
     cols = ['bid_volume0_1','bid_volume0_2', 'bid_volume0_3', 'bid_volume0_4', 'bid_volume0_5',
            'bid_volume0_6', 'bid_volume0_7', 'bid_volume0_8', 'bid_volume0_9',
@@ -187,10 +197,12 @@ def asset_heatmap(df, file_name):
     plt.title("Selected asset's market depth by exchange")
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
-    # Save the plot
-    plt.savefig(file_name, format='jpeg')
-    # Show the plot
-    plt.show()
+    if file_name:
+        # Save the plot
+        plt.savefig(file_name, format='jpeg')
+    if show:
+        # Show the plot
+        plt.show()
 
 
 
@@ -201,7 +213,7 @@ def asset_heatmap(df, file_name):
 
 
 ## BY ASSET only 
-
+# TODO: same docstring format as mentioned above in market_depth
 def assets_depth(apikey, start_time, end_time, assets, instrument_class, interval, exchanges=['krkn','cbse', 'stmp', 'bnus', 'binc', 'gmni', 'btrx', 'itbi', 'huob', 'btba'], quote_assets=['usd', 'usdt', 'usdc', 'dai', 'busd']):
     headers = {'Accept': 'application/json',
                'X-Api-Key': apikey}
@@ -242,7 +254,8 @@ def assets_depth(apikey, start_time, end_time, assets, instrument_class, interva
     final_df = convert_to_numeric(final_df, columns_to_convert)
     return final_df
 
-def create_json(df, filename, usd=False):
+def create_json(df, filename, usd=False): 
+    # TODO: get rid of usd parameter, or correct the way this is working to allow conversion to non-stable assets
     cols = ['bid_volume0_1','bid_volume0_2', 'bid_volume0_3', 'bid_volume0_4', 'bid_volume0_5',
                'bid_volume0_6', 'bid_volume0_7', 'bid_volume0_8', 'bid_volume0_9',
                'bid_volume1', 'bid_volume1_5', 'bid_volume2', 'bid_volume4',
@@ -260,7 +273,7 @@ def create_json(df, filename, usd=False):
         f.write(data)
     return data
 
-def assets_heatmap(df, file_name):
+def assets_heatmap(df, file_name=None, show=False):
     
     # multiply desired columns with mid_price
     cols = ['bid_volume0_1', 'bid_volume0_2', 'bid_volume0_3', 'bid_volume0_4', 'bid_volume0_5',
@@ -300,9 +313,11 @@ def assets_heatmap(df, file_name):
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
     
-    # Save the plot
-    plt.savefig(file_name, format='jpeg')
+    if file_name:
+        # Save the plot
+        plt.savefig(file_name, format='jpeg')
     
-    # Show the plot
-    plt.show()
+    if show:
+        # Show the plot
+        plt.show()
 

@@ -8,18 +8,40 @@ The python module with all the functions is the file named `kaiko_depth.py`. To 
 ```python
 import kaiko_depth as kk
 ```
+
+## Get symbols for supported exchanges
+
+To get a list of the exchanges Kaiko supports and their symbols, see [this page](https://docs.kaiko.com/#exchanges).
+
+## Get the market depth
+
+To access the comparative market depth of a cryptocurrency pair, such as ETH-USD, on Coinbase and Kraken, you can use the `market_depth()` function provided by the CryptoExchangeDepth module. To use this function, you will need to provide your Kaiko API key, which you can obtain by filling out the form on Kaiko's website. Once you have your API key, you can specify the start and end time of your data request in ISO format, the instrument (i.e. the pair you are interested in), the exchanges you want to retrieve data from, and the instrument class (e.g. spot, future, perpetual-future, or option).
+
+Please note that it is important to ensure that the instruments (pair + exchange) you are requesting are actually listed. You can find a list of all pairs listed on all cryptocurrency exchanges on the Kaiko Instruments webpage.
+
+```python
+df = kk.market_depth(apikey='your_api_key_here', 
+                     start_time='2023-01-21T00:00:00Z', 
+                     end_time='2023-01-21T01:00:59Z',
+                     instrument='eth-usd',
+                     exchanges=['cbse', 'krkn'],
+                     instrument_class='spot')
+```
+
 ## Example of Usage : How liquid is ETH compared to BTC
 
-To access the comparative market depth of a cryptocurrency, such as ETH with BTC or any other cryptocurrency, taken from the TOP 10 most liquid exchanges, you can use the `asseets_depth()` function of the module. Thanks to the create_json() function you can export the fully aggregated result by cryptocurrency, in a json format as shown below. You can choose to get this liquidity expressed in your assets unit or in USD thanks to a simple parameter. 
+To access the comparative market depth of a cryptocurrency, such as ETH with BTC or any other cryptocurrency, taken from certain exchanges, you can use the `assets_depth()` function of the module. The default exchanges used are the top 10 most liquid exchanges according to [Kaiko's proprietary liquidity scoring methodology](https://www.kaiko.com/pages/exchange-ranking), and the default quote assets are the most liquid stable assets (USD, USDT, DAI, BUSD, and USDC), but you can include additional quote assets as well. There are many different quote assets to consider for a single base asset's liquidity, including blue-chip assets like BTC and ETH, that a protocol could employ; to stay on the conservative side, our default code limits the quote assets to the largest stablecoins.
+
+Thanks to the create_json() function you can export the fully aggregated result by cryptocurrency, in a json format as shown below. You can choose to get this liquidity expressed in your assets unit or in USD thanks to a simple parameter. 
 
 ```python
 df = kk.assets_depth(apikey='your_api_key_here', 
                      start_time='2023-02-05T00:00:00Z', 
                      end_time='2023-02-08T00:00:00Z',
                      assets=['eth', 'btc'],
-                     #exchanges=['cbse','krkn'], # default TOP 10 CEXs according to Kaiko Exchange Ranking : https://www.kaiko.com/pages/exchange-ranking ['krkn','cbse', 'stmp', 'bnus', 'binc', 'gmni', 'btrx', 'itbi', 'huob', 'btba']
+                     exchanges=['cbse','krkn'] # default TOP 10 CEXs according to Kaiko Exchange Ranking : https://www.kaiko.com/pages/exchange-ranking exchanges=['krkn','cbse', 'stmp', 'bnus', 'binc', 'gmni', 'btrx', 'itbi', 'huob', 'btba']
                      instrument_class='spot', 
-                     #quote_assets=['usd', 'usdt', 'dai']) # default : quote_assets=['usd', 'usdt', 'usdc', 'dai', 'busd']
+                     quote_assets=['usd','usdt','dai'] # default : quote_assets=['usd', 'usdt', 'usdc', 'dai', 'busd']
                      interval='1d')
                      
 depth_results = kk.create_json(df, 'depth_results.json', usd=False)
@@ -43,3 +65,4 @@ For additional information regarding the Kaiko endpoint utilized in the reposito
 ### Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
