@@ -48,7 +48,76 @@ depth_results = kk.create_json(df, 'depth_results.json', usd=False)
 ```
 
 ```json
-'{"btc":{"bid_volume0_1":16.7482551735,"bid_volume0_2":34.5501754382,"bid_volume0_3":49.5365447891,"bid_volume0_4":66.7045709444,"bid_volume0_5":82.5017979636,"bid_volume0_6":92.6392662523,"bid_volume0_7":102.6195668302,"bid_volume0_8":109.7169341836,"bid_volume0_9":115.4954229915,"bid_volume1":120.7994288127,"bid_volume1_5":140.7090008651,"bid_volume2":151.7659178899,"bid_volume4":168.2382406089,"bid_volume6":177.4832565466,"bid_volume8":186.2163923501,"bid_volume10":202.9063020315,"ask_volume0_1":17.4204225631,"ask_volume0_2":34.8038365497,"ask_volume0_3":48.3797373838,"ask_volume0_4":64.3110720726,"ask_volume0_5":80.0302954201,"ask_volume0_6":90.7202434723,"ask_volume0_7":102.2947383194,"ask_volume0_8":109.6534839299,"ask_volume0_9":115.839209255,"ask_volume1":121.9345856949,"ask_volume1_5":136.4505837766,"ask_volume2":144.6291733767,"ask_volume4":157.7176369177,"ask_volume6":168.7699670691,"ask_volume8":185.640196348,"ask_volume10":206.1208593042},"eth":{"bid_volume0_1":126.8498307824,"bid_volume0_2":278.2420115734,"bid_volume0_3":416.4212087288,"bid_volume0_4":567.9821557265,"bid_volume0_5":714.5145193583,"bid_volume0_6":814.8814396563,"bid_volume0_7":899.495087891,"bid_volume0_8":972.3278915629,"bid_volume0_9":1027.0515507694,"bid_volume1":1075.2486887086,"bid_volume1_5":1251.0644402337,"bid_volume2":1480.1523777707,"bid_volume4":2156.9824906248,"bid_volume6":2619.6091270626,"bid_volume8":2749.8508791676,"bid_volume10":2839.2753963512,"ask_volume0_1":129.2197854587,"ask_volume0_2":277.4135905273,"ask_volume0_3":397.8959379245,"ask_volume0_4":533.9342554196,"ask_volume0_5":674.6145302331,"ask_volume0_6":768.7896606936,"ask_volume0_7":853.6979431363,"ask_volume0_8":920.1093034535,"ask_volume0_9":964.8815684735,"ask_volume1":1000.4175172021,"ask_volume1_5":1137.9688472657,"ask_volume2":1325.6228715742,"ask_volume4":1899.0836652647,"ask_volume6":2240.8783479793,"ask_volume8":2301.5578616548,"ask_volume10":2358.6740544248}}'
+[{
+	"btc": {
+		"bid_volume0_1": 16.7482551735,
+		"bid_volume0_2": 34.5501754382,
+		"bid_volume0_3": 49.5365447891,
+		"bid_volume0_4": 66.7045709444,
+		"bid_volume0_5": 82.5017979636,
+		"bid_volume0_6": 92.6392662523,
+		"bid_volume0_7": 102.6195668302,
+		"bid_volume0_8": 109.7169341836,
+		"bid_volume0_9": 115.4954229915,
+		"bid_volume1": 120.7994288127,
+		"bid_volume1_5": 140.7090008651,
+		"bid_volume2": 151.7659178899,
+		"bid_volume4": 168.2382406089,
+		"bid_volume6": 177.4832565466,
+		"bid_volume8": 186.2163923501,
+		"bid_volume10": 202.9063020315,
+		"ask_volume0_1": 17.4204225631,
+		"ask_volume0_2": 34.8038365497,
+		"ask_volume0_3": 48.3797373838,
+		"ask_volume0_4": 64.3110720726,
+		"ask_volume0_5": 80.0302954201,
+		"ask_volume0_6": 90.7202434723,
+		"ask_volume0_7": 102.2947383194,
+		"ask_volume0_8": 109.6534839299,
+		"ask_volume0_9": 115.839209255,
+		"ask_volume1": 121.9345856949,
+		"ask_volume1_5": 136.4505837766,
+		"ask_volume2": 144.6291733767,
+		"ask_volume4": 157.7176369177,
+		"ask_volume6": 168.7699670691,
+		"ask_volume8": 185.640196348,
+		"ask_volume10": 206.1208593042
+	},
+	"eth": {
+		"bid_volume0_1": 126.8498307824,
+		"bid_volume0_2": 278.2420115734,
+		"bid_volume0_3": 416.4212087288,
+		"bid_volume0_4": 567.9821557265,
+		"bid_volume0_5": 714.5145193583,
+		"bid_volume0_6": 814.8814396563,
+		"bid_volume0_7": 899.495087891,
+		"bid_volume0_8": 972.3278915629,
+		"bid_volume0_9": 1027.0515507694,
+		"bid_volume1": 1075.2486887086,
+		"bid_volume1_5": 1251.0644402337,
+		"bid_volume2": 1480.1523777707,
+		"bid_volume4": 2156.9824906248,
+		"bid_volume6": 2619.6091270626,
+		"bid_volume8": 2749.8508791676,
+		"bid_volume10": 2839.2753963512,
+		"ask_volume0_1": 129.2197854587,
+		"ask_volume0_2": 277.4135905273,
+		"ask_volume0_3": 397.8959379245,
+		"ask_volume0_4": 533.9342554196,
+		"ask_volume0_5": 674.6145302331,
+		"ask_volume0_6": 768.7896606936,
+		"ask_volume0_7": 853.6979431363,
+		"ask_volume0_8": 920.1093034535,
+		"ask_volume0_9": 964.8815684735,
+		"ask_volume1": 1000.4175172021,
+		"ask_volume1_5": 1137.9688472657,
+		"ask_volume2": 1325.6228715742,
+		"ask_volume4": 1899.0836652647,
+		"ask_volume6": 2240.8783479793,
+		"ask_volume8": 2301.5578616548,
+		"ask_volume10": 2358.6740544248
+	}
+}]
 ```
 This module also provides you with tools to vizualize liquidity across assets or markets. For example, using the `asseets_heatmap()` function you can obtain a comparative view on how market depth is distributed for different price levels of each selected asset. For example, the heatmap below shows that BTC has higher liquidity than ETH on the top 10 most liquid cryptocurrency exchanges. It also shows that BTC's liquidity is spread across the widest range of price levels for both buy and sell orders, while ETH's liquidity is more concentrated. The liquidity of each asset is measured in USD in the heatmap for easy comparison.
 
