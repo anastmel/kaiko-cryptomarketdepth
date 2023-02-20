@@ -108,7 +108,7 @@ def market_heatmap(df, file_name=None, show=False):
     ax.set_xticklabels(df.columns)
     ax.set_yticklabels(df.index)
     # Add a title to the heatmap
-    plt.title("market depth by pair & exchange")
+    plt.title("market depth by pair & exchange\n")
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
     if file_name:
@@ -117,6 +117,7 @@ def market_heatmap(df, file_name=None, show=False):
     if show:
         # Show the plot
         plt.show()
+
 
 
 
@@ -245,7 +246,7 @@ def asset_heatmap(df, file_name=None, show=False):
     ax.set_xticklabels(df.columns)
     ax.set_yticklabels(df.index)
     # Add a title to the heatmap
-    plt.title("Selected asset's market depth by exchange")
+    plt.title("Selected asset's market depth by exchange\n")
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
     if file_name:
