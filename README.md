@@ -125,7 +125,7 @@ depth_results = kk.create_json(df, 'depth_results.json', usd=False)
 ```
 This module also provides you with tools to vizualize liquidity across assets or markets. For example, using the `asseets_heatmap()` function you can obtain a comparative view on how market depth is distributed for different price levels of each selected asset. For example, the heatmap below shows that BTC has higher liquidity than ETH on the top 10 most liquid cryptocurrency exchanges. It also shows that BTC's liquidity is spread across the widest range of price levels for both buy and sell orders, while ETH's liquidity is more concentrated. The liquidity of each asset is measured in USD in the heatmap for easy comparison.
 
-![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/main/assets_heat.jpeg)
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/6ecc1c45a0fdd0331ac1460b288e4aa93d1832dc/assets_heatmap_kaiko.jpeg)
 
 
 For a more detailed example, see the included notebooks in the examples folder. This folder contains three examples, each for a precise granularity: 
