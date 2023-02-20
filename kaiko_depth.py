@@ -263,6 +263,8 @@ def asset_heatmap(df, file_name=None, show=False):
 
 
 
+
+
 ## BY ASSET only 
 
 '''
@@ -296,11 +298,13 @@ def assets_depth(apikey, start_time, end_time, assets, instrument_class, interva
                     url = f'https://us.market-api.kaiko.io/v2/data/order_book_snapshots.v1/exchanges/{exchange}/{instrument_class}/{instrument}/ob_aggregations/full?start_time={start_time}&end_time={end_time}&interval={interval}'
                     res = requests.get(url, headers=headers)
                     df = pd.DataFrame(res.json()['data'])
+                    df['base'] = (base_asset)
                     df['pair'] = (instrument)
                     df['exchange'] = (exchange)
                     while 'next_url' in res.json():
                         res = requests.get(res.json()['next_url'], headers=headers)
                         data =  pd.DataFrame(res.json()['data'])
+                        data['base'] = (base_asset)
                         data['pair'] = (instrument)
                         data['exchange'] = (exchange)
                         df = pd.concat([df,data], ignore_index=True)
@@ -309,6 +313,37 @@ def assets_depth(apikey, start_time, end_time, assets, instrument_class, interva
                 df_list.append(df)    
     final_df = pd.concat(df_list)
     final_df['poll_date'] = pd.to_datetime(final_df['poll_timestamp'], unit='ms')
+    # add each base asset's price in USD (usefull for conversions)
+    def get_crossprice(apikey, start_time, end_time, base_assets, interval, quote_assets=['usd']):
+        headers = {'Accept': 'application/json',
+                'X-Api-Key': apikey}
+        data_list = []
+        for base in base_assets:
+            for quote in quote_assets:
+                try:
+                    url = f'https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/{base}/{quote}?start_time={start_time}&end_time={end_time}&interval={interval}'
+                    res = requests.get(url, headers=headers)
+                    df = pd.DataFrame(res.json()['data'])
+                    df['base'] = (base)
+                    df['quote'] = (quote)
+                    while 'next_url' in res.json():
+                        res = requests.get(res.json()['next_url'], headers=headers)
+                        data =  pd.DataFrame(res.json()['data'])
+                        data['base'] = (base)
+                        data['quote'] = (quote)
+                        df = pd.concat([df,data], ignore_index=True)
+                except:
+                    print('no instrument found')
+                data_list.append(df)    
+        final_df = pd.concat(data_list)
+        return final_df
+    cross = get_crossprice(apikey, start_time, end_time, assets, interval)
+    merged_df = pd.merge(cross, 
+                     final_df,
+                     left_on=['timestamp', 'base'],
+                     right_on=['poll_timestamp', 'base'])
+    merged_df = merged_df.drop(columns=['quote', 'timestamp', 'base'])
+    merged_df = merged_df.rename(columns={'price': 'price_usd'})
     def convert_to_numeric(df, column_list):
         for column in column_list:
             df[column] = pd.to_numeric(df[column], errors='coerce')
@@ -320,9 +355,9 @@ def assets_depth(apikey, start_time, end_time, assets, instrument_class, interva
            'ask_volume0_2', 'ask_volume0_3', 'ask_volume0_4', 'ask_volume0_5',
            'ask_volume0_6', 'ask_volume0_7', 'ask_volume0_8', 'ask_volume0_9',
            'ask_volume1', 'ask_volume1_5', 'ask_volume2', 'ask_volume4',
-           'ask_volume6', 'ask_volume8', 'ask_volume10', 'mid_price']
-    final_df = convert_to_numeric(final_df, columns_to_convert)
-    return final_df
+           'ask_volume6', 'ask_volume8', 'ask_volume10', 'mid_price', 'price_usd']
+    merged_df = convert_to_numeric(merged_df, columns_to_convert)
+    return merged_df
 
 def create_json(df, filename, usd=False): 
     # TODO: get rid of usd parameter, or correct the way this is working to allow conversion to non-stable assets
@@ -336,7 +371,7 @@ def create_json(df, filename, usd=False):
                'ask_volume6', 'ask_volume8', 'ask_volume10']
     df[['base', 'quote']] = df['pair'].str.split("-", expand=True)
     if usd:
-        df[cols] = df[cols].mul(df['mid_price'], axis=0)
+        df[cols] = df[cols].mul(df['price_usd'], axis=0)
     df = df.groupby('base')[cols].mean()
     data = df.to_json(orient="index")
     with open(filename, "w") as f:
@@ -354,7 +389,7 @@ def assets_heatmap(df, file_name=None, show=False):
             'ask_volume0_6', 'ask_volume0_7', 'ask_volume0_8', 'ask_volume0_9',
             'ask_volume1', 'ask_volume1_5', 'ask_volume2', 'ask_volume4',
             'ask_volume6', 'ask_volume8', 'ask_volume10']
-    df[cols] = df[cols].multiply(df['mid_price'], axis=0)
+    df[cols] = df[cols].multiply(df['price_usd'], axis=0)
 
     # group by base and calculate the mean of the desired columns
     df = df.groupby('base')[cols].mean()
@@ -378,7 +413,7 @@ def assets_heatmap(df, file_name=None, show=False):
     ax.set_yticklabels(df.index)
     
     # Add a title to the heatmap
-    plt.title("Assets Market Depth")
+    plt.title("Assets Market Depth\n")
     
     # Rotate the x-axis labels
     plt.xticks(rotation=70)
@@ -390,4 +425,5 @@ def assets_heatmap(df, file_name=None, show=False):
     if show:
         # Show the plot
         plt.show()
+
 
