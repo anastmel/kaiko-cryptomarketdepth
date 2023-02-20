@@ -51,6 +51,10 @@ df = kk.assets_depth(apikey='your_api_key_here',
 depth_results = kk.create_json(df, 'depth_results.json', usd=False)
 ```
 
+The below table summarizes the definitions of the fields included in the result returned by these functions.
+
+![Alt text](https://github.com/anastmel/kaiko-cryptomarketdepth/blob/1c78bc7c86f81bf1418cedaf448fcf1b458a09f7/definitions_table.png)
+
 ```json
 [{
 	"btc": {
